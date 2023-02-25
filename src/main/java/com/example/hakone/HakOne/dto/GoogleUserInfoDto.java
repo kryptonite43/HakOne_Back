@@ -1,16 +1,21 @@
 package com.example.hakone.HakOne.dto;
 import com.example.hakone.HakOne.domain.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
-public class GoogleUserInfoDto extends User {
-    private String name;
+@RequiredArgsConstructor
+public class GoogleUserInfoDto {
+    private String id;
     private String email;
-    private String profile_pic;
+    private Boolean verified_email;
+    private String name;
+    private String given_name;
+    private String family_name;
+    private String picture;
+    private String locale;
+
+    public GoogleUserInfoDto(String toString, String email, boolean b, String name, String s, String s1, String profile_pic, String s2) {
+    }
 }

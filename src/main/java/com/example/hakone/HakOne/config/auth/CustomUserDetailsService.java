@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,13 +32,20 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) {
         Optional<User> result = userRepository.findByEmail(email);
         User user = result.get();
-        GoogleUserInfoDto googleAuthUser = new GoogleUserInfoDto(
-                user.getName(),
-                user.getEmail(),
-                user.getProfile_pic()
-        );
-        googleAuthUser.setName(user.getName());
-        return new org.springframework.security.core.userdetails.User(googleAuthUser.getEmail(), "", null);
+        System.out.println("--------loadUserByUserName-----");
+        System.out.println(user.getName()+", "+user.getEmail()+", "+user.getProfile_pic());
+//        GoogleUserInfoDto googleAuthUser = new GoogleUserInfoDto(
+//                user.getId().toString(),
+//                user.getEmail(),
+//                true,
+//                user.getName(),
+//                "",
+//                "",
+//                user.getProfile_pic(),
+//                ""
+//        );
+//        googleAuthUser.setName(user.getName());
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), "", Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())));
 
 
     }

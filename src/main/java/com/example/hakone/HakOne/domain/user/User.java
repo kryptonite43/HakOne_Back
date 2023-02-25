@@ -25,11 +25,14 @@ public class User {
     @Column
     private String profile_pic;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @Builder
-    public User(String name, String email, String profile_pic) {
+    public User(String name, String email, String profile_pic, Role role) {
         this.name = name;
         this.email = email;
         this.profile_pic = profile_pic;
+        this.role = Role.USER;
     }
 
     public User update(String name, String profile_pic) {
@@ -37,5 +40,9 @@ public class User {
         this.profile_pic = profile_pic;
 
         return this;
+    }
+
+    public String getRoleKey() {
+        return this.role.getKey();
     }
 }
