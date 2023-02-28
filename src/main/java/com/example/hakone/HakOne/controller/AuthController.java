@@ -21,15 +21,6 @@ public class AuthController {
     @PostMapping("/google")
     public ResponseEntity<TokenDto> callback(@RequestParam("authCode") String authCode) throws IOException {
         System.out.println("authcode:"+authCode);
-
-
         return ResponseEntity.ok(authService.googleLogin(authCode));
     }
-//    @ResponseBody
-//    public void authResponse(@RequestBody String authCode) {
-//        System.out.println("authCode: "+authCode);
-//
-//        return googleOAuth2UserService.authResponseAPI(authCode);
-//    }
-
 }

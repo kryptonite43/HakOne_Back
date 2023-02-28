@@ -2,7 +2,6 @@ package com.example.hakone.HakOne.config.auth;
 
 import com.example.hakone.HakOne.dto.GoogleOAuthTokenDto;
 import com.example.hakone.HakOne.dto.GoogleUserInfoDto;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,29 +69,4 @@ public class GoogleService {
         GoogleUserInfoDto googleUserInfoDto = objectMapper.readValue(response.getBody(), GoogleUserInfoDto.class);
         return googleUserInfoDto;
     }
-//    public GoogleOAuth2UserInfoDto getUserInfoByAccessToken(String accessToken) {
-//        final String userInfoUri = "https://www.googleapis.com/oauth2/v3/userinfo";
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Authorization", "Bearer " + accessToken);
-//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//
-//        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-//        params.add("access_token", accessToken);
-//
-//        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-//
-//        try {
-//            ResponseEntity<String> response = restTemplate.postForEntity(userInfoUri, request, String.class);
-//
-//            GoogleOAuth2UserInfoDto googleOAuth2UserInfoDto = objectMapper.readValue(response.getBody(), GoogleOAuth2UserInfoDto.class);
-//
-//            return googleOAuth2UserInfoDto;
-//
-//        } catch (RestClientException | JsonProcessingException e) {
-//            log.error(e.getMessage());
-//
-//            throw new AccessTokenException();
-//        }
-//    }
 }

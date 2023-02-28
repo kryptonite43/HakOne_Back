@@ -16,6 +16,5 @@ public class GoogleUserInfoDto {
     private String picture;
     private String locale;
 
-    public GoogleUserInfoDto(String toString, String email, boolean b, String name, String s, String s1, String profile_pic, String s2) {
-    }
+    public GoogleUserInfoDto(String id, String email, boolean verified_email, String name, String given_name, String family_name, String picture, String locale) {}
 }
