@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 application-oauth.properties
+application.properties
 client_secret_697762565420-50p4qpmpptl3htmccoufhrq6sasf12iq.apps.googleusercontent.com.json
 build/
 !gradle/wrapper/gradle-wrapper.jar
