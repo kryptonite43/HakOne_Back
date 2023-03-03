@@ -1,4 +1,4 @@
-package com.example.hakone.HakOne.config.auth;
+package com.example.hakone.HakOne.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
