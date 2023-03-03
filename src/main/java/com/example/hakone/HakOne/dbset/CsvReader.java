@@ -1,7 +1,6 @@
 package com.example.hakone.HakOne.dbset;
 
 import com.example.hakone.HakOne.domain.academy.Food;
-import com.example.hakone.HakOne.dto.FoodDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
@@ -28,6 +27,7 @@ public class CsvReader {
         /* delimitedLineTokenizer : setNames를 통해 각각의 데이터의 이름 설정 */
         DelimitedLineTokenizer delimitedLineTokenizer = new DelimitedLineTokenizer(",");
         delimitedLineTokenizer.setNames("id","name");
+        delimitedLineTokenizer.setStrict(false); // csv 파일의 컬럼과 불일치 허용
         defaultLineMapper.setLineTokenizer(delimitedLineTokenizer);
 
         /* beanWrapperFieldSetMapper : Tokenizer에서 가지고 온 데이터들을 VO로 바인드하는 역할 */

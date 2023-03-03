@@ -23,6 +23,7 @@ public class FileItemReaderJobConfig {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final CsvReader csvReader;
+    private final CsvProcessor csvProcessor;
     private final CsvWriter csvWriter;
     private static final int chunkSize = 1000;
 
@@ -37,6 +38,7 @@ public class FileItemReaderJobConfig {
         return stepBuilderFactory.get("csvFileItemReaderStep")
                 .<Food, Food>chunk(chunkSize)
                 .reader(csvReader.csvFileItemReader())
+                .processor(csvProcessor)
                 .writer(csvWriter)
                 .build();
     }
