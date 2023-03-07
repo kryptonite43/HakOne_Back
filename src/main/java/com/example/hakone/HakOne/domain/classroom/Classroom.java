@@ -44,6 +44,7 @@ public class Classroom {
     @JoinColumn(name = "academy_id")
     private Academy academy;
 
+//    private Long academy_id_inClass;
     @Builder
     public Classroom(String className, int tuition) {
         this.name = className;

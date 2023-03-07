@@ -47,15 +47,6 @@ public class FileItemReaderJobConfig {
 
     public Step csvFileItemReaderStep1() {
         return stepBuilderFactory.get("csvFileItemReaderStep1")
-                .<CsvDto, Classroom>chunk(chunkSize)
-                .reader(csvReader.csvFileItemReader())
-                .processor(classProcessor)
-                .writer(classWriter)
-                .build();
-    }
-
-    public Step csvFileItemReaderStep2() {
-        return stepBuilderFactory.get("csvFileItemReaderStep2")
                 .<CsvDto, Academy>chunk(chunkSize)
                 .reader(csvReader.csvFileItemReader())
                 .processor(academyProcessor)
@@ -63,29 +54,38 @@ public class FileItemReaderJobConfig {
                 .build();
     }
 
-
-    @Bean
-    public CompositeItemProcessor csvProcessor() {
-        List<ItemProcessor> delegates = new ArrayList<>(2);
-        delegates.add(classProcessor);
-        delegates.add(academyProcessor);
-
-        CompositeItemProcessor processor = new CompositeItemProcessor();
-
-        processor.setDelegates(delegates);
-
-        return processor;
+    public Step csvFileItemReaderStep2() {
+        return stepBuilderFactory.get("csvFileItemReaderStep2")
+                .<CsvDto, Classroom>chunk(chunkSize)
+                .reader(csvReader.csvFileItemReader())
+                .processor(classProcessor)
+                .writer(classWriter)
+                .build();
     }
 
-    @Bean
-    public CompositeItemWriter csvWriter() {
-        List<ItemWriter> delegates = new ArrayList<>(2);
-        delegates.add(classWriter);
-        delegates.add(academyWriter);
 
-        CompositeItemWriter writer = new CompositeItemWriter();
-        writer.setDelegates(delegates);
-
-        return writer;
-    }
+//    @Bean
+//    public CompositeItemProcessor csvProcessor() {
+//        List<ItemProcessor> delegates = new ArrayList<>(2);
+//        delegates.add(classProcessor);
+//        delegates.add(academyProcessor);
+//
+//        CompositeItemProcessor processor = new CompositeItemProcessor();
+//
+//        processor.setDelegates(delegates);
+//
+//        return processor;
+//    }
+//
+//    @Bean
+//    public CompositeItemWriter csvWriter() {
+//        List<ItemWriter> delegates = new ArrayList<>(2);
+//        delegates.add(classWriter);
+//        delegates.add(academyWriter);
+//
+//        CompositeItemWriter writer = new CompositeItemWriter();
+//        writer.setDelegates(delegates);
+//
+//        return writer;
+//    }
 }
