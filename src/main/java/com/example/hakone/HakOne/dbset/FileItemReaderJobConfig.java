@@ -1,7 +1,6 @@
 package com.example.hakone.HakOne.dbset;
 
 import com.example.hakone.HakOne.domain.academy.Academy;
-import com.example.hakone.HakOne.domain.academy.Food;
 import com.example.hakone.HakOne.domain.classroom.Classroom;
 import com.example.hakone.HakOne.dto.CsvDto;
 import lombok.RequiredArgsConstructor;
@@ -10,18 +9,8 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.support.CompositeItemProcessor;
-import org.springframework.batch.item.support.CompositeItemWriter;
-import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Configuration
@@ -74,30 +63,4 @@ public class FileItemReaderJobConfig {
                 .writer(academyClassWriter)
                 .build();
     }
-
-
-//    @Bean
-//    public CompositeItemProcessor csvProcessor() {
-//        List<ItemProcessor> delegates = new ArrayList<>(2);
-//        delegates.add(classProcessor);
-//        delegates.add(academyProcessor);
-//
-//        CompositeItemProcessor processor = new CompositeItemProcessor();
-//
-//        processor.setDelegates(delegates);
-//
-//        return processor;
-//    }
-//
-//    @Bean
-//    public CompositeItemWriter csvWriter() {
-//        List<ItemWriter> delegates = new ArrayList<>(2);
-//        delegates.add(classWriter);
-//        delegates.add(academyWriter);
-//
-//        CompositeItemWriter writer = new CompositeItemWriter();
-//        writer.setDelegates(delegates);
-//
-//        return writer;
-//    }
 }

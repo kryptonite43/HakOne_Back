@@ -19,7 +19,6 @@ public class ClassProcessor implements ItemProcessor<CsvDto, Classroom> {
     @Override
     public Classroom process(CsvDto item) throws Exception {
         Classroom result = new Classroom();
-//        Long academyId;
 
         result.setName(item.getClassName());
         result.setTuition(item.getMonth_tuition());
@@ -33,10 +32,8 @@ public class ClassProcessor implements ItemProcessor<CsvDto, Classroom> {
         result.setEssay_class(item.isEssay_class());
         result.setArt_class(item.isArt_class());
         result.setElse_class(item.isElse_class());
-//        System.out.println("학원이름: "+item.getAcademyName());
+
         Optional<Academy> academy = academyRepository.findByAcademyName(item.getAcademyName());
-//        academyId = academy.get().getId();
-//        result.setAcademy_id_inClass(academyId);
         result.setAcademy(academy.get());
         return result;
     }

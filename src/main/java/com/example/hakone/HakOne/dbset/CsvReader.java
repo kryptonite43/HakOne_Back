@@ -1,6 +1,5 @@
 package com.example.hakone.HakOne.dbset;
 
-import com.example.hakone.HakOne.domain.academy.Food;
 import com.example.hakone.HakOne.dto.CsvDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.file.FlatFileItemReader;

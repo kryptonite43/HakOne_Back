@@ -15,7 +15,6 @@ public class AcademyClassWriter implements ItemWriter<Academy> {
     private final AcademyRepository academyRepository;
     @Override
     public void write(List<? extends Academy> list) throws Exception {
-        System.out.println("AcademyClassWriter 동작---");
         academyRepository.saveAll(new ArrayList<Academy>(list));
     }
 }

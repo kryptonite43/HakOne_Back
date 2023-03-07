@@ -18,14 +18,12 @@ public class AcademyClassProcessor implements ItemProcessor<CsvDto, Academy> {
     @Autowired
     AcademyRepository academyRepository;
     @Override
-    public Academy process(CsvDto item) throws Exception {
+    public Academy process(CsvDto item) throws Exception { // 반 정보 추출 및 수강료 평균 계산, 과목 정보 합산
         Academy result = academyRepository.findByAcademyName(item.getAcademyName()).get();
-
-        // 반 정보 추출 및 수강료 평균 계산, 과목 정보 합산
         List<Classroom> classList = result.getClassroomList();
-        List<Boolean> subjectList = new ArrayList<>();
-        // {국어, 영어, 수학, 사회, 과학, 외국어, 논술, 예능, 기타}
+        List<Boolean> subjectList = new ArrayList<>(); // {국어, 영어, 수학, 사회, 과학, 외국어, 논술, 예능, 기타}
         int k = 0;
+
         while (k < 9) { // 과목리스트 초기화
             subjectList.add(false);
             k++;
@@ -64,7 +62,6 @@ public class AcademyClassProcessor implements ItemProcessor<CsvDto, Academy> {
             if (count > 0) {
                 int averageTuition = totalPrice / count;
                 result.setAvg_tuition(averageTuition);
-                // {국어, 영어, 수학, 사회, 과학, 외국어, 논술, 예능, 기타}
                 result.setKor_class(kor);
                 result.setEng_class(eng);
                 result.setMath_class(math);
