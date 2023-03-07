@@ -1,13 +1,14 @@
 package com.example.hakone.HakOne.domain.user;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 
-@Getter
+@Data
 @NoArgsConstructor
 @Entity
 @Table(name="Users")
