@@ -16,9 +16,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClassWriter implements ItemWriter<Classroom> {
     private final ClassRepository classRepository;
+    String className; //
 
     @Override
     public void write(List<? extends Classroom> list) throws Exception {
+        className = list.get(0).getName(); //
+        System.out.println("first className: "+className+" 저장 완료 ---");
         classRepository.saveAll(new ArrayList<Classroom>(list));
     }
 }

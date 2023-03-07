@@ -32,8 +32,10 @@ public class FileItemReaderJobConfig {
     private final CsvReader csvReader;
     private final AcademyProcessor academyProcessor;
     private final ClassProcessor classProcessor;
+    private final AcademyClassProcessor academyClassProcessor;
     private final AcademyWriter academyWriter;
     private final ClassWriter classWriter;
+    private final AcademyClassWriter academyClassWriter;
     private static final int chunkSize = 1000;
 
 
@@ -42,6 +44,7 @@ public class FileItemReaderJobConfig {
         return jobBuilderFactory.get("csvFileItemReaderJob")
                 .start(csvFileItemReaderStep1())
                 .next(csvFileItemReaderStep2())
+                .next(csvFileItemReaderStep3())
                 .build();
     }
 
@@ -60,6 +63,15 @@ public class FileItemReaderJobConfig {
                 .reader(csvReader.csvFileItemReader())
                 .processor(classProcessor)
                 .writer(classWriter)
+                .build();
+    }
+
+    public Step csvFileItemReaderStep3() {
+        return stepBuilderFactory.get("csvFileItemReaderStep3")
+                .<CsvDto, Academy>chunk(chunkSize)
+                .reader(csvReader.csvFileItemReader())
+                .processor(academyClassProcessor)
+                .writer(academyClassWriter)
                 .build();
     }
 

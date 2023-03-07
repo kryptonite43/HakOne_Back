@@ -36,6 +36,25 @@ public class Academy {
     @Column(name = "학년_기타", nullable = false)
     private boolean else_grade;
 
+    @Column(name = "과목_국어", nullable = false)
+    private boolean kor_class;
+    @Column(name = "과목_영어", nullable = false)
+    private boolean eng_class;
+    @Column(name = "과목_수학", nullable = false)
+    private boolean math_class;
+    @Column(name = "과목_사회", nullable = false)
+    private boolean soc_class;
+    @Column(name = "과목_과학", nullable = false)
+    private boolean sci_class;
+    @Column(name = "과목_외국어", nullable = false)
+    private boolean for_class;
+    @Column(name = "과목_논술", nullable = false)
+    private boolean essay_class;
+    @Column(name = "과목_예능", nullable = false)
+    private boolean art_class;
+    @Column(name = "과목_기타", nullable = false)
+    private boolean else_class;
+
     @OneToMany(mappedBy = "academy", cascade = CascadeType.ALL)
     private List<Classroom> classroomList;
 
