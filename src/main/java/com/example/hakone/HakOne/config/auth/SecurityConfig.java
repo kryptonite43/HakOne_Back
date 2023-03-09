@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -21,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/oauth2/authorization/*").permitAll()
                 .antMatchers("/google").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .logout()
                 .logoutSuccessUrl("/")
