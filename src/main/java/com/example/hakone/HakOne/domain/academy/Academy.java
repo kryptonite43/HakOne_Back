@@ -58,7 +58,7 @@ public class Academy {
     @OneToMany(mappedBy = "academy", cascade = CascadeType.ALL)
     private List<Classroom> classroomList;
 
-    private int avg_score;
+    private float avg_score; // 구현 예정
     private int avg_tuition;
 
     @Builder
@@ -73,7 +73,6 @@ public class Academy {
         this.teacher = teacher;
         this.avg_score = 0;
         this.avg_tuition = 0;
-
         this.elem_grade = elem_grade;
         this.mid_grade = mid_grade;
         this.high_grade = high_grade;
@@ -90,7 +89,7 @@ public class Academy {
         this.else_class = else_class;
     }
 
-    public void updateScoreAndTuition(int avg_score, int avg_tuition) {
+    public void updateScoreAndTuition(float avg_score, int avg_tuition) {
         this.avg_score = avg_score;
         this.avg_tuition = avg_tuition;
     }
