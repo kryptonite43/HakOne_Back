@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,7 @@ public class AuthService {
         GoogleOAuthTokenDto oAuthToken = googleService.getAccessToken(accessTokenResponse);
         ResponseEntity<String> userInfoResponse = googleService.requestUserInfo(oAuthToken);
         GoogleUserInfoDto googleUser = googleService.getUserInfo(userInfoResponse);
+        System.out.println("------------getGoogleUserInfoDto() done: "+googleUser.getName());
         return googleUser;
     }
 
@@ -37,6 +39,7 @@ public class AuthService {
         String jwt;
         GoogleUserInfoDto googleUser = getGoogleUserInfoDto(authCode);
         if (userRepository.findByEmail(googleUser.getEmail()).orElse(null) == null) {
+            System.out.println("------------userRepository에 없음, 새로 만들기: "+googleUser.getEmail());
             User user = User.builder()
                     .name(googleUser.getName())
                     .email(googleUser.getEmail())
@@ -52,11 +55,20 @@ public class AuthService {
         System.out.println("googleUser email: "+googleUser.getEmail());
         System.out.println("token: "+jwt+", googleUserName: "+googleUser.getName());
 
+        User currentUser = userRepository.findByEmail(googleUser.getEmail()).get();
+
+//        TokenDto tokenDto = TokenDto.builder()
+//                .token(jwt)
+//                .name(googleUser.getName())
+//                .email(googleUser.getEmail())
+//                .profile_pic(googleUser.getPicture())
+//                .build();
         TokenDto tokenDto = TokenDto.builder()
+                .user_id(currentUser.getId())
                 .token(jwt)
-                .name(googleUser.getName())
-                .email(googleUser.getEmail())
-                .profile_pic(googleUser.getPicture())
+                .name(currentUser.getName())
+                .email(currentUser.getEmail())
+                .profile_pic(currentUser.getProfile_pic())
                 .build();
         return tokenDto;
     }
