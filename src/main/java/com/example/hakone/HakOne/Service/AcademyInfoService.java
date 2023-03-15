@@ -25,6 +25,7 @@ public class AcademyInfoService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public SpecificAcademyResDto findById(Long id) {
         Academy academy = academyRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학원이 없습니다. id=" + id));

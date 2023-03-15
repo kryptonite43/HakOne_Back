@@ -25,7 +25,7 @@ public class FileItemReaderJobConfig {
     private final AcademyWriter academyWriter;
     private final ClassWriter classWriter;
     private final AcademyClassWriter academyClassWriter;
-    private static final int chunkSize = 1000;
+    private static final int chunkSize = 100;
 
 
     @Bean

@@ -17,6 +17,7 @@ public class AllAcademyResDto {
     List<Boolean> subjectList; // {국어, 영어, 수학, 사회, 과학, 외국어, 논술, 예능, 기타}
     Boolean star; // 사용자가 관심한 학원인지 여부
     // 별점, 리뷰 구현 예정
+    int review_count;
 
     public AllAcademyResDto(Academy academy){
         this.academyId = academy.getId();
@@ -45,5 +46,6 @@ public class AllAcademyResDto {
         this.subjectList = subjects;
 
         this.star = false; // 일단 구현 안해둬서 초기값으로 설정
+        this.review_count = 0; // 일단 구현 안해둬서 초기값으로 설정
     }
 }

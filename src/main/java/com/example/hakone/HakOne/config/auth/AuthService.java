@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthService {
     private final GoogleService googleService;
+    @Autowired
     private final UserRepository userRepository;
     @Autowired
     private final CustomUserDetailsService userDetailsService;
@@ -34,7 +36,7 @@ public class AuthService {
         System.out.println("------------getGoogleUserInfoDto() done: "+googleUser.getName());
         return googleUser;
     }
-
+    @Transactional
     public TokenDto googleLogin(String authCode) throws IOException {
         String jwt;
         GoogleUserInfoDto googleUser = getGoogleUserInfoDto(authCode);
