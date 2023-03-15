@@ -59,12 +59,6 @@ public class AuthService {
 
         User currentUser = userRepository.findByEmail(googleUser.getEmail()).get();
 
-//        TokenDto tokenDto = TokenDto.builder()
-//                .token(jwt)
-//                .name(googleUser.getName())
-//                .email(googleUser.getEmail())
-//                .profile_pic(googleUser.getPicture())
-//                .build();
         TokenDto tokenDto = TokenDto.builder()
                 .user_id(currentUser.getId())
                 .token(jwt)

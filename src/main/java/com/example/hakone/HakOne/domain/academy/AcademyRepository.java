@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface AcademyRepository extends JpaRepository<Academy, Long> {
     Optional<Academy> findByAcademyName(String academyName);
+    Optional<Academy> findById(Long id);
     @Query("SELECT p FROM Academy p ORDER BY p.id ASC")
     List<Academy> findAllDesc();
 }

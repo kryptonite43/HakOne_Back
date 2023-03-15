@@ -1,11 +1,14 @@
 package com.example.hakone.HakOne.domain.user;
 
+import com.example.hakone.HakOne.domain.UserAcademy.UserAcademy;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -15,6 +18,7 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     @Column(nullable = false)
@@ -25,6 +29,9 @@ public class User {
 
     @Column
     private String profile_pic;
+
+    @OneToMany(mappedBy = "member")
+    private List<UserAcademy> userAcademies = new ArrayList<>(); // 학원 정보 가져오기 위함
 
     @Enumerated(EnumType.STRING)
     private Role role;

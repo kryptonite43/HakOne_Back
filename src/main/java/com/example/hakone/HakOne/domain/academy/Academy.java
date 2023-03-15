@@ -1,9 +1,11 @@
 package com.example.hakone.HakOne.domain.academy;
 
+import com.example.hakone.HakOne.domain.UserAcademy.UserAcademy;
 import com.example.hakone.HakOne.domain.classroom.Classroom;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -57,6 +59,9 @@ public class Academy {
 
     @OneToMany(mappedBy = "academy", cascade = CascadeType.ALL)
     private List<Classroom> classroomList;
+
+    @OneToMany(mappedBy = "academy")
+    private List<UserAcademy> userAcademies = new ArrayList<>(); // 유저 정보 가져오기 위함
 
     private float avg_score;
     private int review_count;
