@@ -17,7 +17,7 @@ public class CsvReader {
     public FlatFileItemReader<CsvDto> csvFileItemReader() {
         /* file read */
         FlatFileItemReader<CsvDto> flatFileItemReader = new FlatFileItemReader<>();
-        flatFileItemReader.setResource(new ClassPathResource("/csv/test.csv"));
+        flatFileItemReader.setResource(new ClassPathResource("/csv/academy_information.csv"));
         flatFileItemReader.setLinesToSkip(1); // header line skip
         flatFileItemReader.setEncoding("UTF-8"); // encoding
 
