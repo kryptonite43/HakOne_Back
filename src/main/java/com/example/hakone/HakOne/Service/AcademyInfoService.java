@@ -5,7 +5,6 @@ import com.example.hakone.HakOne.domain.academy.AcademyRepository;
 import com.example.hakone.HakOne.dto.AllAcademyResDto;
 import com.example.hakone.HakOne.dto.SpecificAcademyResDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +27,7 @@ public class AcademyInfoService {
     @Transactional(readOnly = true)
     public SpecificAcademyResDto findById(Long id) {
         Academy academy = academyRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 학원이 없습니다. id=" + id));
+                .orElseThrow(() -> new IllegalArgumentException("해당 학원이 없습니다. id=" + id)); // 수정 예정
         return new SpecificAcademyResDto(academy);
     }
 }

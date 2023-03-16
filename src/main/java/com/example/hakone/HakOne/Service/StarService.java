@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @Service
@@ -49,5 +52,15 @@ public class StarService {
         else {
             return false;
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<Academy> findAllByMember_Id(Long userId) {
+        List<UserAcademy> userAcademyList = userAcademyRepository.findAllByMember_Id(userId);
+        List<Academy> starAcademyList = userAcademyList.stream()
+                .map(UserAcademy::getAcademy)
+                .collect(Collectors.toList());
+
+        return starAcademyList;
     }
 }

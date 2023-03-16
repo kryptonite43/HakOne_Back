@@ -1,13 +1,15 @@
 package com.example.hakone.HakOne.controller;
 
+import com.example.hakone.HakOne.Service.AcademyInfoService;
 import com.example.hakone.HakOne.Service.StarService;
+import com.example.hakone.HakOne.domain.academy.Academy;
+import com.example.hakone.HakOne.dto.AllAcademyResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,5 +42,15 @@ public class StarApiController {
                     .status(409)
                     .body("이미 관심 해제된 학원입니다");
         }
+    }
+
+    @GetMapping("/user/{user_id}/star")
+    public ResponseEntity<List<AllAcademyResDto>> getUsersStarList(@PathVariable Long user_id) {
+        List<Academy> usersStarList = starService.findAllByMember_Id(user_id);
+        List<AllAcademyResDto> usersStarListResponse = usersStarList.stream()
+                .map(AllAcademyResDto::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(usersStarListResponse);
     }
 }
