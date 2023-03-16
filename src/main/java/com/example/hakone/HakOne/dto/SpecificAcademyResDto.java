@@ -3,6 +3,9 @@ package com.example.hakone.HakOne.dto;
 import com.example.hakone.HakOne.domain.academy.Academy;
 import com.example.hakone.HakOne.domain.classroom.Classroom;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +14,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@Getter
+@Setter
+@NoArgsConstructor
 public class SpecificAcademyResDto {
     private String academyName;
     private String address;
@@ -48,7 +54,7 @@ public class SpecificAcademyResDto {
                 Collectors.toMap(Classroom::getName, Classroom::getTuition));
         this.classList = (HashMap<String, Integer>) classes;
 
-        this.star = false; // 일단 구현 안해둬서 초기값으로 설정
+        this.star = false;
         this.avg_score = academy.getAvg_score();
         this.review_count = 0;  // 일단 구현 안해둬서 초기값으로 설정
     }

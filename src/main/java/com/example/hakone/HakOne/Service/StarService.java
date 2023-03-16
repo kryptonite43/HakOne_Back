@@ -1,10 +1,12 @@
 package com.example.hakone.HakOne.Service;
 
+import com.example.hakone.HakOne.domain.UserAcademy.UserAcademy;
 import com.example.hakone.HakOne.domain.UserAcademy.UserAcademyRepository;
 import com.example.hakone.HakOne.domain.academy.Academy;
 import com.example.hakone.HakOne.domain.academy.AcademyRepository;
+import com.example.hakone.HakOne.domain.user.User;
+import com.example.hakone.HakOne.domain.user.UserRepository;
 import com.example.hakone.HakOne.dto.AllAcademyResDto;
-import com.example.hakone.HakOne.dto.SpecificAcademyResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,18 +15,62 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @RequiredArgsConstructor
 @Service
-public class AcademyInfoService {
-
-    private final AcademyRepository academyRepository;
+public class StarService {
     private final UserAcademyRepository userAcademyRepository;
+    private final AcademyRepository academyRepository;
+    private final UserRepository userRepository;
+
+    @Transactional
+    public Boolean addStar(Long userId, Long academyId) {
+        User member = userRepository.findById(userId).get();
+        Academy academy = academyRepository.findById(academyId).get();
+        boolean isStarPresent = userAcademyRepository.findByMember_IdAndAcademy_Id(userId, academyId).isPresent();
+        if (isStarPresent) {
+            return false;
+        }
+        else {
+            UserAcademy userAcademy = UserAcademy.builder()
+                    .member(member)
+                    .academy(academy)
+                    .build();
+            userAcademyRepository.save(userAcademy);
+
+            return true;
+        }
+    }
+
+    @Transactional
+    public Boolean deleteStar(Long userId, Long academyId) {
+        boolean isStarPresent = userAcademyRepository.findByMember_IdAndAcademy_Id(userId, academyId).isPresent();
+        if (isStarPresent) {
+            UserAcademy userAcademy = userAcademyRepository.findByMember_IdAndAcademy_Id(userId, academyId).get();
+            userAcademyRepository.delete(userAcademy);
+
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     @Transactional(readOnly = true)
-    public List<AllAcademyResDto> findAllDesc(Long userId) {
-        List<Long> starAcademyIds = userAcademyRepository.findAcademyIdsByUserId(userId);
+    public List<Academy> findAllByMember_Id(Long userId) {
+        List<UserAcademy> userAcademyList = userAcademyRepository.findAllByMember_Id(userId);
+        List<Academy> starAcademyList = userAcademyList.stream()
+                .map(UserAcademy::getAcademy)
+                .collect(Collectors.toList());
 
-        return academyRepository.findAllDesc().stream()
+        return starAcademyList;
+    }
+
+    @Transactional(readOnly = true)
+    public List<AllAcademyResDto> findAll(Long user_id, List<Academy> usersStarList) {
+        List<Long> starAcademyIds = userAcademyRepository.findAcademyIdsByUserId(user_id);
+
+        List<AllAcademyResDto> usersStarListResponse = usersStarList.stream()
                 .map(academy -> {
                     AllAcademyResDto dto = new AllAcademyResDto();
                     dto.setAcademyId(academy.getId());
@@ -58,17 +104,6 @@ public class AcademyInfoService {
                     return dto;
                 })
                 .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public SpecificAcademyResDto findById(Long user_id, Long academy_id) {
-        List<Long> starAcademyIds = userAcademyRepository.findAcademyIdsByUserId(user_id); // 더 간단하게 수정 - userid, academyid 정보로 한번에 star 판별
-        Academy academy = academyRepository.findById(academy_id).get();
-
-        SpecificAcademyResDto specificAcademyResDto = new SpecificAcademyResDto(academy);
-        specificAcademyResDto.setStar(starAcademyIds.contains(academy.getId()));
-        return specificAcademyResDto;
+        return usersStarListResponse;
     }
 }
-
-
