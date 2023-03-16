@@ -1,6 +1,5 @@
 package com.example.hakone.HakOne.controller;
 
-import com.example.hakone.HakOne.Service.AcademyInfoService;
 import com.example.hakone.HakOne.Service.StarService;
 import com.example.hakone.HakOne.domain.academy.Academy;
 import com.example.hakone.HakOne.dto.AllAcademyResDto;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,9 +45,7 @@ public class StarApiController {
     @GetMapping("/user/{user_id}/star")
     public ResponseEntity<List<AllAcademyResDto>> getUsersStarList(@PathVariable Long user_id) {
         List<Academy> usersStarList = starService.findAllByMember_Id(user_id);
-        List<AllAcademyResDto> usersStarListResponse = usersStarList.stream()
-                .map(AllAcademyResDto::new)
-                .collect(Collectors.toList());
+        List<AllAcademyResDto> usersStarListResponse = starService.findAll(user_id, usersStarList);
 
         return ResponseEntity.ok(usersStarListResponse);
     }

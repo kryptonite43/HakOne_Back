@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,9 +21,9 @@ import java.util.List;
 public class AcademyInfoApiController {
     private final AcademyInfoService academyInfoService;
 
-    @GetMapping("/academy")
-    public ResponseEntity<StreamingResponseBody> getAllAcademyList() {
-        List<AllAcademyResDto> allAcademyResDtoList = academyInfoService.findAllDesc();
+    @GetMapping("/user/{user_id}/academy")
+    public ResponseEntity<StreamingResponseBody> getAllAcademyList(@PathVariable Long user_id) {
+        List<AllAcademyResDto> allAcademyResDtoList = academyInfoService.findAllDesc(user_id);
         ObjectMapper objectMapper = new ObjectMapper();
 
         StreamingResponseBody streamingResponseBody = outputStream -> {
@@ -50,9 +48,9 @@ public class AcademyInfoApiController {
                 .body(streamingResponseBody);
     }
 
-    @GetMapping("/academy/{academy_id}")
-    public ResponseEntity<SpecificAcademyResDto> getSpecificAcademyInfo(@PathVariable Long academy_id) {
-        return ResponseEntity.ok(academyInfoService.findById(academy_id));
+    @GetMapping("/user/{user_id}/academy/{academy_id}")
+    public ResponseEntity<SpecificAcademyResDto> getSpecificAcademyInfo(@PathVariable Long user_id, @PathVariable Long academy_id) {
+        return ResponseEntity.ok(academyInfoService.findById(user_id, academy_id));
     }
 
 
