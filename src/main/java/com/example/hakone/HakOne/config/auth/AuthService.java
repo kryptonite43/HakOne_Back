@@ -9,14 +9,12 @@ import com.example.hakone.HakOne.dto.TokenDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -66,6 +64,7 @@ public class AuthService {
                 .email(currentUser.getEmail())
                 .profile_pic(currentUser.getProfile_pic())
                 .build();
+        System.out.println();
         return tokenDto;
     }
 
