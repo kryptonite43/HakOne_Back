@@ -99,6 +99,7 @@ public class StarService {
                     dto.setSubjectList(subjects);
 
                     dto.setStar(starAcademyIds.contains(academy.getId()));
+                    dto.setAvg_score(0); // 일단 구현 안해둬서 초기값으로 설정
                     dto.setReview_count(0); // 일단 구현 안해둬서 초기값으로 설정
 
                     return dto;

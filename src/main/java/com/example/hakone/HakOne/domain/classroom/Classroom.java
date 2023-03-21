@@ -4,7 +4,6 @@ import com.example.hakone.HakOne.domain.academy.Academy;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -44,7 +43,6 @@ public class Classroom {
     @JoinColumn(name = "academy_id")
     private Academy academy;
 
-//    private Long academy_id_inClass;
     @Builder
     public Classroom(String className, int tuition) {
         this.name = className;

@@ -2,6 +2,7 @@ package com.example.hakone.HakOne.domain.academy;
 
 import com.example.hakone.HakOne.domain.UserAcademy.UserAcademy;
 import com.example.hakone.HakOne.domain.classroom.Classroom;
+import com.example.hakone.HakOne.domain.review.Review;
 import lombok.*;
 
 import javax.persistence.*;
@@ -60,8 +61,11 @@ public class Academy {
     @OneToMany(mappedBy = "academy", cascade = CascadeType.ALL)
     private List<Classroom> classroomList;
 
-    @OneToMany(mappedBy = "academy")
+    @OneToMany(mappedBy = "academy", cascade = CascadeType.ALL)
     private List<UserAcademy> userAcademies = new ArrayList<>(); // 유저 정보 가져오기 위함
+
+    @OneToMany(mappedBy = "academy", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
 
     private float avg_score;
     private int review_count;

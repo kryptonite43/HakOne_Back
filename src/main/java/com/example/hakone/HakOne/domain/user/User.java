@@ -1,9 +1,9 @@
 package com.example.hakone.HakOne.domain.user;
 
 import com.example.hakone.HakOne.domain.UserAcademy.UserAcademy;
+import com.example.hakone.HakOne.domain.review.Review;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -30,8 +30,11 @@ public class User {
     @Column
     private String profile_pic;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserAcademy> userAcademies = new ArrayList<>(); // 학원 정보 가져오기 위함
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;
