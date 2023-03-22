@@ -19,6 +19,10 @@ public class Classroom {
     private String name;
     @Column(name = "수강료")
     private int tuition;
+    @Column(name = "전화번호")
+    private String tel;
+    @Column(name = "지역구")
+    private String region;
 
     @Column(name = "과목_국어", nullable = false)
     private boolean kor_class;

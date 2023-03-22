@@ -22,6 +22,8 @@ public class ClassProcessor implements ItemProcessor<CsvDto, Classroom> {
 
         result.setName(item.getClassName());
         result.setTuition(item.getMonth_tuition());
+        result.setTel(item.getTel());
+        result.setRegion(item.getRegion());
 
         result.setKor_class(item.isKor_class());
         result.setEng_class(item.isEng_class());
@@ -33,7 +35,7 @@ public class ClassProcessor implements ItemProcessor<CsvDto, Classroom> {
         result.setArt_class(item.isArt_class());
         result.setElse_class(item.isElse_class());
 
-        Optional<Academy> academy = academyRepository.findByAcademyName(item.getAcademyName());
+        Optional<Academy> academy = academyRepository.findByTelAndAcademyNameAndRegion(result.getTel(),item.getAcademyName(), result.getRegion());
         result.setAcademy(academy.get());
         return result;
     }
