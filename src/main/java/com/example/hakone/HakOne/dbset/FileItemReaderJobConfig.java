@@ -49,7 +49,7 @@ public class FileItemReaderJobConfig {
 
     @Bean
     public Job csvFileItemReaderJob() throws Exception {
-        stopJobExecution(1);
+//        stopJobExecution(1);
         return jobBuilderFactory.get("csvFileItemReaderJob")
                 .start(csvFileItemReaderStep1())
                 .next(csvFileItemReaderStep2())
@@ -87,36 +87,36 @@ public class FileItemReaderJobConfig {
 
 
     // 중지할 JobExecution의 ID를 파라미터로 받는다.
-    public void stopJobExecution(long jobExecutionId) throws Exception {
-        // 현재 실행중인 JobExecution 객체를 조회한다.
-        JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionId);
-        if (jobExecution != null) {
-            // 해당 JobExecution의 JobInstance 객체를 조회한다.
-            JobInstance jobInstance = jobExecution.getJobInstance();
-            if (jobInstance != null) {
-                // 트랜잭션 정의를 생성한다.
-                DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-                def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
-                TransactionStatus status = transactionManager.getTransaction(def);
-                try {
-//                    // 현재 실행중인 JobExecution을 중지시킨다.
-                    jobOperator.stop(jobExecutionId);
-//                    // 해당 JobExecution의 상태를 STOPPING으로 변경한다.
-//                    jobExecution.setStatus(BatchStatus.STOPPING);
-//                    // JobExecution을 업데이트한다.
+//    public void stopJobExecution(long jobExecutionId) throws Exception {
+//        // 현재 실행중인 JobExecution 객체를 조회한다.
+//        JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionId);
+//        if (jobExecution != null) {
+//            // 해당 JobExecution의 JobInstance 객체를 조회한다.
+//            JobInstance jobInstance = jobExecution.getJobInstance();
+//            if (jobInstance != null) {
+//                // 트랜잭션 정의를 생성한다.
+//                DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+//                def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+//                TransactionStatus status = transactionManager.getTransaction(def);
+//                try {
+////                    // 현재 실행중인 JobExecution을 중지시킨다.
+//                    jobOperator.stop(jobExecutionId);
+////                    // 해당 JobExecution의 상태를 STOPPING으로 변경한다.
+////                    jobExecution.setStatus(BatchStatus.STOPPING);
+////                    // JobExecution을 업데이트한다.
+////                    jobRepository.update(jobExecution);
+//                    jobExecution.setStatus(BatchStatus.STOPPED);
+//                    jobExecution.setExitStatus(ExitStatus.STOPPED);
+//                    jobExecution.setEndTime(new Date());
 //                    jobRepository.update(jobExecution);
-                    jobExecution.setStatus(BatchStatus.STOPPED);
-                    jobExecution.setExitStatus(ExitStatus.STOPPED);
-                    jobExecution.setEndTime(new Date());
-                    jobRepository.update(jobExecution);
-                    // 트랜잭션을 커밋한다.
-                    transactionManager.commit(status);
-                } catch (Exception e) {
-                    // 트랜잭션을 롤백한다.
-                    transactionManager.rollback(status);
-                    throw e;
-                }
-            }
-        }
-    }
+//                    // 트랜잭션을 커밋한다.
+//                    transactionManager.commit(status);
+//                } catch (Exception e) {
+//                    // 트랜잭션을 롤백한다.
+//                    transactionManager.rollback(status);
+//                    throw e;
+//                }
+//            }
+//        }
+//    }
 }
