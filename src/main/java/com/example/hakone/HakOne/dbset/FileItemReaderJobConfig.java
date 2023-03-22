@@ -49,7 +49,7 @@ public class FileItemReaderJobConfig {
 
     @Bean
     public Job csvFileItemReaderJob() throws Exception {
-//        stopJobExecution(1);
+        stopJobExecution(1);
         return jobBuilderFactory.get("csvFileItemReaderJob")
                 .start(csvFileItemReaderStep1())
                 .next(csvFileItemReaderStep2())
