@@ -19,6 +19,8 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import java.util.Date;
+
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
@@ -47,7 +49,7 @@ public class FileItemReaderJobConfig {
 
     @Bean
     public Job csvFileItemReaderJob() throws Exception {
-        stopJobExecution(1);
+//        stopJobExecution(1);
         return jobBuilderFactory.get("csvFileItemReaderJob")
                 .start(csvFileItemReaderStep1())
                 .next(csvFileItemReaderStep2())
@@ -97,11 +99,15 @@ public class FileItemReaderJobConfig {
                 def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
                 TransactionStatus status = transactionManager.getTransaction(def);
                 try {
-                    // 현재 실행중인 JobExecution을 중지시킨다.
+//                    // 현재 실행중인 JobExecution을 중지시킨다.
                     jobOperator.stop(jobExecutionId);
-                    // 해당 JobExecution의 상태를 STOPPING으로 변경한다.
-                    jobExecution.setStatus(BatchStatus.STOPPING);
-                    // JobExecution을 업데이트한다.
+//                    // 해당 JobExecution의 상태를 STOPPING으로 변경한다.
+//                    jobExecution.setStatus(BatchStatus.STOPPING);
+//                    // JobExecution을 업데이트한다.
+//                    jobRepository.update(jobExecution);
+                    jobExecution.setStatus(BatchStatus.STOPPED);
+                    jobExecution.setExitStatus(ExitStatus.STOPPED);
+                    jobExecution.setEndTime(new Date());
                     jobRepository.update(jobExecution);
                     // 트랜잭션을 커밋한다.
                     transactionManager.commit(status);
