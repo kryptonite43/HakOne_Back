@@ -9,7 +9,9 @@ import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.explore.JobExplorer;
+import org.springframework.batch.core.launch.JobExecutionNotRunningException;
 import org.springframework.batch.core.launch.JobOperator;
+import org.springframework.batch.core.launch.NoSuchJobExecutionException;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.Date;
+import java.util.Set;
 
 @Slf4j
 @Configuration
@@ -49,7 +52,7 @@ public class FileItemReaderJobConfig {
 
     @Bean
     public Job csvFileItemReaderJob() throws Exception {
-        stopJobExecution(1);
+        pleaseStopJobExecution();
         return jobBuilderFactory.get("csvFileItemReaderJob")
                 .start(csvFileItemReaderStep1())
                 .next(csvFileItemReaderStep2())
@@ -84,40 +87,52 @@ public class FileItemReaderJobConfig {
                 .build();
     }
 
-
-
-    // 중지할 JobExecution의 ID를 파라미터로 받는다.
-    public void stopJobExecution(long jobExecutionId) throws Exception {
-        // 현재 실행중인 JobExecution 객체를 조회한다.
-        JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionId);
-        if (jobExecution != null) {
-            // 해당 JobExecution의 JobInstance 객체를 조회한다.
-            JobInstance jobInstance = jobExecution.getJobInstance();
-            if (jobInstance != null) {
-                // 트랜잭션 정의를 생성한다.
-                DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-                def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
-                TransactionStatus status = transactionManager.getTransaction(def);
+    public void pleaseStopJobExecution() {
+        Set<JobExecution> jobExecutionsSet = jobExplorer.findRunningJobExecutions("csvFileItemReaderJob");
+        for (JobExecution jobExecution:jobExecutionsSet) {
+            if (jobExecution.getStatus()== BatchStatus.STARTED|| jobExecution.getStatus()== BatchStatus.STARTING || jobExecution.getStatus()== BatchStatus.STOPPING){
                 try {
-//                    // 현재 실행중인 JobExecution을 중지시킨다.
-                    jobOperator.stop(jobExecutionId);
-//                    // 해당 JobExecution의 상태를 STOPPING으로 변경한다.
-//                    jobExecution.setStatus(BatchStatus.STOPPING);
-//                    // JobExecution을 업데이트한다.
-//                    jobRepository.update(jobExecution);
-                    jobExecution.setStatus(BatchStatus.STOPPED);
-                    jobExecution.setExitStatus(ExitStatus.STOPPED);
-                    jobExecution.setEndTime(new Date());
-                    jobRepository.update(jobExecution);
-                    jobOperator.restart(jobExecution.getId());
-                    // 트랜잭션을 커밋한다.
-                    transactionManager.commit(status);
-                } catch (Exception e) {
-                    // 트랜잭션을 롤백한다.
-                    transactionManager.rollback(status);
-                    throw e;
+                    jobOperator.stop(jobExecution.getId());
+                } catch (NoSuchJobExecutionException | JobExecutionNotRunningException e) {
+                    throw new RuntimeException(e);
                 }
+                System.out.println("###########Stopped#########");
             }
         }
     }
+
+//    // 중지할 JobExecution의 ID를 파라미터로 받는다.
+//    public void stopJobExecution(long jobExecutionId) throws Exception {
+//        // 현재 실행중인 JobExecution 객체를 조회한다.
+//        JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionId);
+//        if (jobExecution != null) {
+//            // 해당 JobExecution의 JobInstance 객체를 조회한다.
+//            JobInstance jobInstance = jobExecution.getJobInstance();
+//            if (jobInstance != null) {
+//                // 트랜잭션 정의를 생성한다.
+//                DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+//                def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+//                TransactionStatus status = transactionManager.getTransaction(def);
+//                try {
+////                    // 현재 실행중인 JobExecution을 중지시킨다.
+//                    jobOperator.stop(jobExecutionId);
+////                    // 해당 JobExecution의 상태를 STOPPING으로 변경한다.
+////                    jobExecution.setStatus(BatchStatus.STOPPING);
+////                    // JobExecution을 업데이트한다.
+////                    jobRepository.update(jobExecution);
+//                    jobExecution.setStatus(BatchStatus.STOPPED);
+//                    jobExecution.setExitStatus(ExitStatus.STOPPED);
+//                    jobExecution.setEndTime(new Date());
+//                    jobRepository.update(jobExecution);
+//                    jobOperator.restart(jobExecution.getId());
+//                    // 트랜잭션을 커밋한다.
+//                    transactionManager.commit(status);
+//                } catch (Exception e) {
+//                    // 트랜잭션을 롤백한다.
+//                    transactionManager.rollback(status);
+//                    throw e;
+//                }
+//            }
+//        }
+//    }
 }
