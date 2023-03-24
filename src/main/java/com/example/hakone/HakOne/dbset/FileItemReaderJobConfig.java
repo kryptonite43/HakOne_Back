@@ -52,7 +52,13 @@ public class FileItemReaderJobConfig {
 
     @Bean
     public Job csvFileItemReaderJob() throws Exception {
-        pleaseStopJobExecution();
+        Set<JobExecution> jobExecutionsSet = jobExplorer.findRunningJobExecutions("csvFileItemReaderJob");
+        for (JobExecution jobExecution:jobExecutionsSet) {
+            if (jobExecution.getStatus()== BatchStatus.STARTED|| jobExecution.getStatus()== BatchStatus.STARTING || jobExecution.getStatus()== BatchStatus.STOPPING){
+                jobOperator.stop(jobExecution.getId());
+                System.out.println("###########Stopped#########");
+            }
+        }
         return jobBuilderFactory.get("csvFileItemReaderJob")
                 .start(csvFileItemReaderStep1())
                 .next(csvFileItemReaderStep2())
@@ -87,19 +93,19 @@ public class FileItemReaderJobConfig {
                 .build();
     }
 
-    public void pleaseStopJobExecution() {
-        Set<JobExecution> jobExecutionsSet = jobExplorer.findRunningJobExecutions("csvFileItemReaderJob");
-        for (JobExecution jobExecution:jobExecutionsSet) {
-            if (jobExecution.getStatus()== BatchStatus.STARTED|| jobExecution.getStatus()== BatchStatus.STARTING || jobExecution.getStatus()== BatchStatus.STOPPING){
-                try {
-                    jobOperator.stop(jobExecution.getId());
-                } catch (NoSuchJobExecutionException | JobExecutionNotRunningException e) {
-                    throw new RuntimeException(e);
-                }
-                System.out.println("###########Stopped#########");
-            }
-        }
-    }
+//    public void pleaseStopJobExecution() {
+//        Set<JobExecution> jobExecutionsSet = jobExplorer.findRunningJobExecutions("csvFileItemReaderJob");
+//        for (JobExecution jobExecution:jobExecutionsSet) {
+//            if (jobExecution.getStatus()== BatchStatus.STARTED|| jobExecution.getStatus()== BatchStatus.STARTING || jobExecution.getStatus()== BatchStatus.STOPPING){
+//                try {
+//                    jobOperator.stop(jobExecution.getId());
+//                } catch (NoSuchJobExecutionException | JobExecutionNotRunningException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                System.out.println("###########Stopped#########");
+//            }
+//        }
+//    }
 
 //    // 중지할 JobExecution의 ID를 파라미터로 받는다.
 //    public void stopJobExecution(long jobExecutionId) throws Exception {
