@@ -17,20 +17,22 @@ public class AcademyWriter implements ItemWriter<Academy> {
     public void write(List<? extends Academy> list) throws Exception {
         for (Academy academy : list) {
             Optional<Academy> temp = academyRepository.findByTelAndAcademyNameAndRegion(academy.getTel(), academy.getAcademyName(), academy.getRegion());
-            if (temp.isPresent()) { // 학원이 존재하면 -> 저장된 학원(temp)이랑 신규학원(academy)이랑 같은 학원인지 확인. 같은 학원이 아닐 때만 저장
-                long lastAcademyId = academyRepository.count();
-                if (lastAcademyId != 0) {
-                    Academy lastSavedAcademy = academyRepository.findById(lastAcademyId).get();
-                    if (!lastSavedAcademy.getAcademyName().equals(academy.getAcademyName())) {
-                        academyRepository.save(academy);
-                    }
-                }
-                else {
-                    academyRepository.save(academy);
-                }
+            if (temp.isEmpty()) { // 학원이 존재하면 -> 저장된 학원(temp)이랑 신규학원(academy)이랑 같은 학원인지 확인. 같은 학원이 아닐 때만 저장
+                academyRepository.save(academy);
+//                long lastAcademyId = academyRepository.count();
+//                if (lastAcademyId != 0) {
+//                    Academy lastSavedAcademy = academyRepository.findById(lastAcademyId).get();
+//                    if (!lastSavedAcademy.getAcademyName().equals(academy.getAcademyName())) {
+//                        academyRepository.save(academy);
+//                    }
+//                }
+//                else {
+//                    System.out.println("----------------------"+lastAcademyId);
+//                    academyRepository.save(academy);
+//                }
             }
             else {
-                academyRepository.save(academy);
+//                academyRepository.save(academy);
             }
         }
     }
