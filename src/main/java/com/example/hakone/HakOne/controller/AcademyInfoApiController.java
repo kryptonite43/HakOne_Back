@@ -55,6 +55,4 @@ public class AcademyInfoApiController {
         System.out.println("[CUSTOM LOG "+ new LogDateTime().getDate() + "]     학원 정보 상세 조회");
         return ResponseEntity.ok(academyInfoService.findById(user_id, academy_id));
     }
-
-
 }

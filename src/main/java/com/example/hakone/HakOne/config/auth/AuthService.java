@@ -31,7 +31,6 @@ public class AuthService {
         GoogleOAuthTokenDto oAuthToken = googleService.getAccessToken(accessTokenResponse);
         ResponseEntity<String> userInfoResponse = googleService.requestUserInfo(oAuthToken);
         GoogleUserInfoDto googleUser = googleService.getUserInfo(userInfoResponse);
-        System.out.println("------------getGoogleUserInfoDto() done: "+googleUser.getName());
         return googleUser;
     }
     @Transactional

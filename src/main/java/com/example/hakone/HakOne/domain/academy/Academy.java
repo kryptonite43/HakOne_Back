@@ -98,11 +98,6 @@ public class Academy {
         this.art_class = art_class;
         this.else_class = else_class;
     }
-
-    public void updateScoreAndTuition(float avg_score, int avg_tuition) {
-        this.avg_score = avg_score;
-        this.avg_tuition = avg_tuition;
-    }
 }
 
 
