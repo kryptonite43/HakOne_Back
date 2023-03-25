@@ -7,12 +7,16 @@ import com.example.hakone.HakOne.domain.review.ReviewRepository;
 import com.example.hakone.HakOne.domain.user.User;
 import com.example.hakone.HakOne.domain.user.UserRepository;
 import com.example.hakone.HakOne.dto.CreateReviewReqDto;
+import com.example.hakone.HakOne.dto.ReviewResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -51,5 +55,22 @@ public class ReviewService {
             academy.updateReviewCountAndAvgScore();
             return true;
         }
+    }
+
+    @Transactional
+    public List<ReviewResDto> getAllReviewByAcademy(Long academyId) {
+        return reviewRepository.findAllByAcademy_Id(academyId).stream()
+                .map(review -> {
+                    ReviewResDto dto = new ReviewResDto();
+
+                    dto.setProfile_pic(review.getMember().getProfile_pic());
+                    dto.setUsername(review.getMember().getName());
+                    dto.setScore(review.getScore());
+                    String dateTimeString = review.getCreatedDate().format(DateTimeFormatter.ofPattern("yy.MM.dd"));
+                    dto.setCreated_date(dateTimeString);
+                    dto.setContent(review.getContent());
+
+                    return dto;
+                }).collect(Collectors.toList());
     }
 }
