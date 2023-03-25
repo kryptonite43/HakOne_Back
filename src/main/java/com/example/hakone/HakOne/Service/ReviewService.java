@@ -64,6 +64,7 @@ public class ReviewService {
                 .map(review -> {
                     ReviewResDto dto = new ReviewResDto();
 
+                    dto.setReview_id(review.getId());
                     dto.setProfile_pic(review.getMember().getProfile_pic());
                     dto.setUsername(review.getMember().getName());
                     dto.setScore(review.getScore());
@@ -81,6 +82,7 @@ public class ReviewService {
                 .map(review -> {
                     ReviewByUserDto dto = new ReviewByUserDto();
 
+                    dto.setReview_id(review.getId());
                     dto.setAcademy_name(review.getAcademy().getAcademyName());
                     dto.setAvg_score(review.getAcademy().getAvg_score());
                     dto.setReview_count(review.getAcademy().getReview_count());
@@ -91,5 +93,22 @@ public class ReviewService {
 
                     return dto;
                 }).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Boolean deleteReview(Long academyId, Long reviewId) {
+        boolean isReviewPresent = reviewRepository.findByAcademy_IdAndId(academyId, reviewId).isPresent();
+        if (isReviewPresent) {
+            Review review = reviewRepository.findByAcademy_IdAndId(academyId, reviewId).get();
+            review.getMember().getReviews().remove(review);
+            review.getAcademy().getReviews().remove(review);
+            reviewRepository.delete(review);
+            Academy academy = academyRepository.findById(academyId).get();
+            academy.updateReviewCountAndAvgScore();
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

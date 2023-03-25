@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewResDto {
+    private Long review_id;
     private String profile_pic;
     private String username;
     private float score;

@@ -7,10 +7,7 @@ import com.example.hakone.HakOne.dto.ReviewByUserDto;
 import com.example.hakone.HakOne.dto.ReviewResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -46,5 +43,21 @@ public class ReviewApiController {
     public ResponseEntity<List<ReviewByUserDto>> getAllReviewByUser(@PathVariable Long user_id) {
         System.out.println("[CUSTOM LOG "+ new LogDateTime().getDate() + "]     내가 쓴 리뷰 전체 조회");
         return ResponseEntity.ok(reviewService.getAllReviewByUser(user_id));
+    }
+
+    @DeleteMapping("/academy/{academy_id}/review/{review_id}")
+    public ResponseEntity<String> deleteReview(@PathVariable Long academy_id, @PathVariable Long review_id) {
+        if (reviewService.deleteReview(academy_id, review_id)) {
+            System.out.println("[CUSTOM LOG "+ new LogDateTime().getDate() + "]     리뷰 삭제");
+            return ResponseEntity
+                    .status(200)
+                    .body("리뷰 삭제 완료");
+        }
+        else {
+            System.out.println("[CUSTOM LOG "+ new LogDateTime().getDate() + "]     이미 리뷰 삭제됨");
+            return ResponseEntity
+                    .status(409)
+                    .body("이미 삭제된 리뷰입니다");
+        }
     }
 }

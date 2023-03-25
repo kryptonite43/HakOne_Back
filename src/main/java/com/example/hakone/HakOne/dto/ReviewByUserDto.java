@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewByUserDto {
+    private Long review_id;
     private String academy_name;
     private float avg_score;
     private int review_count;
