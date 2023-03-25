@@ -7,6 +7,7 @@ import com.example.hakone.HakOne.domain.review.ReviewRepository;
 import com.example.hakone.HakOne.domain.user.User;
 import com.example.hakone.HakOne.domain.user.UserRepository;
 import com.example.hakone.HakOne.dto.CreateReviewReqDto;
+import com.example.hakone.HakOne.dto.ReviewByUserDto;
 import com.example.hakone.HakOne.dto.ReviewResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -69,6 +70,24 @@ public class ReviewService {
                     String dateTimeString = review.getCreatedDate().format(DateTimeFormatter.ofPattern("yy.MM.dd"));
                     dto.setCreated_date(dateTimeString);
                     dto.setContent(review.getContent());
+
+                    return dto;
+                }).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<ReviewByUserDto> getAllReviewByUser(Long userId) {
+        return reviewRepository.findAllByMember_Id(userId).stream()
+                .map(review -> {
+                    ReviewByUserDto dto = new ReviewByUserDto();
+
+                    dto.setAcademy_name(review.getAcademy().getAcademyName());
+                    dto.setAvg_score(review.getAcademy().getAvg_score());
+                    dto.setReview_count(review.getAcademy().getReview_count());
+                    dto.setContent(review.getContent());
+                    dto.setUser_score(review.getScore());
+                    String dateTimeString = review.getCreatedDate().format(DateTimeFormatter.ofPattern("yy.MM.dd"));
+                    dto.setCreated_date(dateTimeString);
 
                     return dto;
                 }).collect(Collectors.toList());

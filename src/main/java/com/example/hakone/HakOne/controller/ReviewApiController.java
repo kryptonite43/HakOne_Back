@@ -3,6 +3,7 @@ package com.example.hakone.HakOne.controller;
 import com.example.hakone.HakOne.Service.ReviewService;
 import com.example.hakone.HakOne.domain.LogDateTime;
 import com.example.hakone.HakOne.dto.CreateReviewReqDto;
+import com.example.hakone.HakOne.dto.ReviewByUserDto;
 import com.example.hakone.HakOne.dto.ReviewResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +37,14 @@ public class ReviewApiController {
     }
 
     @GetMapping("/academy/{academy_id}/review")
-    public ResponseEntity<List<ReviewResDto>> getAllReviewWithAcademy(@PathVariable Long academy_id) {
+    public ResponseEntity<List<ReviewResDto>> getAllReviewByAcademy(@PathVariable Long academy_id) {
         System.out.println("[CUSTOM LOG "+ new LogDateTime().getDate() + "]     해당 학원 리뷰목록 조회");
         return ResponseEntity.ok(reviewService.getAllReviewByAcademy(academy_id));
+    }
+
+    @GetMapping("/user/{user_id}/review")
+    public ResponseEntity<List<ReviewByUserDto>> getAllReviewByUser(@PathVariable Long user_id) {
+        System.out.println("[CUSTOM LOG "+ new LogDateTime().getDate() + "]     내가 쓴 리뷰 전체 조회");
+        return ResponseEntity.ok(reviewService.getAllReviewByUser(user_id));
     }
 }
