@@ -12,15 +12,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RequiredArgsConstructor
 @Service
 public class ReviewService {
     private final AcademyRepository academyRepository;
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
+    private final S3FileUploadService s3FileUploadService;
 
     @Transactional
-    public Boolean createReview(CreateReviewReqDto createReviewReqDto, Long userId, Long academyId) {
+    public Boolean createReview(CreateReviewReqDto createReviewReqDto, Long userId, Long academyId) throws IOException {
         User member = userRepository.findById(userId).get();
         Academy academy = academyRepository.findById(academyId).get();
         boolean isReviewPresent = reviewRepository.findByMember_IdAndAcademy_Id(userId, academyId).isPresent();
@@ -31,12 +34,16 @@ public class ReviewService {
             MultipartFile receipt = createReviewReqDto.getReceipt();
             float score = createReviewReqDto.getScore();
             String content = createReviewReqDto.getContent();
+
+            // receipt를 S3에 올린 후 해당 파일의 링크를 String으로 받아옴. Review 객체의 receipt 필드로 저장하는 로직.
+            String receiptLink = s3FileUploadService.UploadImageAndGetLink(receipt);
+
             Review newReview = Review.builder()
                     .member(member)
                     .academy(academy)
                     .content(content)
                     .score(score)
-                    .receipt(receipt.getOriginalFilename())
+                    .receipt(receiptLink)
                     .build();
             reviewRepository.save(newReview);
 

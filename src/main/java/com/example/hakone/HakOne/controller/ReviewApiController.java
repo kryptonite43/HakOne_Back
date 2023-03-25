@@ -9,13 +9,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 public class ReviewApiController {
     private final ReviewService reviewService;
 
     @PostMapping("/user/{user_id}/academy/{academy_id}")
-    public ResponseEntity<String> createReview(CreateReviewReqDto createReviewReqDto, @PathVariable Long user_id, @PathVariable Long academy_id) {
+    public ResponseEntity<String> createReview(CreateReviewReqDto createReviewReqDto, @PathVariable Long user_id, @PathVariable Long academy_id) throws IOException {
         if (reviewService.createReview(createReviewReqDto, user_id, academy_id)) {
             System.out.println("[CUSTOM LOG "+ new LogDateTime().getDate() + "]     리뷰 신규 등록");
             return ResponseEntity
