@@ -47,6 +47,8 @@ public class ReviewService {
                     .build();
             reviewRepository.save(newReview);
 
+            // 리뷰 등록에 따른 평균 점수, 리뷰 갯수 변경
+            academy.updateReviewCountAndAvgScore();
             return true;
         }
     }

@@ -98,6 +98,15 @@ public class Academy {
         this.art_class = art_class;
         this.else_class = else_class;
     }
+
+    public void updateReviewCountAndAvgScore() {
+        this.review_count = reviews.size();
+        float sum = 0;
+        for (Review review : reviews) {
+            sum += review.getScore();
+        }
+        this.avg_score = (float) (Math.round((sum / reviews.size()) * 10) / 10.0);
+    }
 }
 
 
