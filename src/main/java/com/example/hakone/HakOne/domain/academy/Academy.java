@@ -99,9 +99,13 @@ public class Academy {
         this.else_class = else_class;
     }
 
-    public void updateScoreAndTuition(float avg_score, int avg_tuition) {
-        this.avg_score = avg_score;
-        this.avg_tuition = avg_tuition;
+    public void updateReviewCountAndAvgScore() {
+        this.review_count = reviews.size();
+        float sum = 0;
+        for (Review review : reviews) {
+            sum += review.getScore();
+        }
+        this.avg_score = (float) (Math.round((sum / reviews.size()) * 10) / 10.0);
     }
 }
 

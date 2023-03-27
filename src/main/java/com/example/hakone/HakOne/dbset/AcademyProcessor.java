@@ -25,7 +25,6 @@ public class AcademyProcessor implements ItemProcessor<CsvDto, Academy> {
         result.setHigh_grade(item.isHigh_grade());
         result.setElse_grade(item.isElse_grade());
 
-        // 별점 점수 관련 구현 예정
         return result;
     }
 }

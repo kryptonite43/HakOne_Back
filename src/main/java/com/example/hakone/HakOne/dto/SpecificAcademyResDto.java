@@ -56,6 +56,6 @@ public class SpecificAcademyResDto {
 
         this.star = false;
         this.avg_score = academy.getAvg_score();
-        this.review_count = 0;  // 일단 구현 안해둬서 초기값으로 설정
+        this.review_count = academy.getReview_count();
     }
 }
