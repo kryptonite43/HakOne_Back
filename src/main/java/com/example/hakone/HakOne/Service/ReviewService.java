@@ -39,7 +39,8 @@ public class ReviewService {
             MultipartFile receipt = createReviewReqDto.getReceipt();
             float score = createReviewReqDto.getScore();
             String content = createReviewReqDto.getContent();
-            System.out.println("==============receipt 내용: "+receipt);
+            System.out.println("==============receipt getname: "+receipt.getName());
+            System.out.println("==============receipt getORiginalname: "+receipt.getOriginalFilename());
             // receipt를 S3에 올린 후 해당 파일의 링크를 String으로 받아옴. Review 객체의 receipt 필드로 저장하는 로직.
             String receiptLink = s3FileUploadService.UploadImageAndGetLink(receipt);
 
