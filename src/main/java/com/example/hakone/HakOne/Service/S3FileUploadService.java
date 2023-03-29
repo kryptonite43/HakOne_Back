@@ -21,7 +21,7 @@ public class S3FileUploadService {
 
     @Transactional
     public String UploadImageAndGetLink(MultipartFile receipt) throws IOException {
-        String fileName = receipt.getName();
+        String fileName = receipt.getOriginalFilename();
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(receipt.getContentType());
