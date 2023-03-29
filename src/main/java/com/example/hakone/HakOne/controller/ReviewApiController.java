@@ -21,15 +21,15 @@ public class ReviewApiController {
     private final ReviewService reviewService;
 
     @PostMapping(value = "/user/{user_id}/academy/{academy_id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> createReview(@RequestPart MultipartFile userImage,
+    public ResponseEntity<String> createReview(@ModelAttribute CreateReviewReqDto createReviewReqDto,/*@RequestPart MultipartFile userImage,
                                                @RequestPart("score") float score,
-                                               @RequestPart("content") String content,
+                                               @RequestPart("content") String content,*/
                                                @PathVariable Long user_id,
                                                @PathVariable Long academy_id) throws IOException {
-        CreateReviewReqDto createReviewReqDto = new CreateReviewReqDto();
-        createReviewReqDto.setReceipt(userImage);
-        createReviewReqDto.setScore(score);
-        createReviewReqDto.setContent(content);
+//        CreateReviewReqDto createReviewReqDto = new CreateReviewReqDto();
+//        createReviewReqDto.setReceipt(userImage);
+//        createReviewReqDto.setScore(score);
+//        createReviewReqDto.setContent(content);
         System.out.println("receipt: "+createReviewReqDto.getReceipt());
         System.out.println("content: "+createReviewReqDto.getContent());
         System.out.println("score: "+createReviewReqDto.getScore());
