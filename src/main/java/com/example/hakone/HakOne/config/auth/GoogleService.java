@@ -60,7 +60,7 @@ public class GoogleService {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(GOOGLE_USERINFO_REQUEST_URL, HttpMethod.GET, request,String.class);
-        System.out.println("response.getBody() = " + response.getBody());
+        // System.out.println("response.getBody() = " + response.getBody());
         return response;
     }
 
