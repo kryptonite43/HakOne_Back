@@ -20,13 +20,13 @@ public class ReviewApiController {
     private final ReviewService reviewService;
 
     @PostMapping("/user/{user_id}/academy/{academy_id}")
-    public ResponseEntity<String> createReview(@RequestPart MultipartFile receipt,
+    public ResponseEntity<String> createReview(@RequestPart MultipartFile userImage,
                                                @RequestPart("score") float score,
                                                @RequestPart("content") String content,
                                                @PathVariable Long user_id,
                                                @PathVariable Long academy_id) throws IOException {
         CreateReviewReqDto createReviewReqDto = new CreateReviewReqDto();
-        createReviewReqDto.setReceipt(receipt);
+        createReviewReqDto.setReceipt(userImage);
         createReviewReqDto.setScore(score);
         createReviewReqDto.setContent(content);
         System.out.println("receipt: "+createReviewReqDto.getReceipt());
