@@ -6,6 +6,7 @@ import com.example.hakone.HakOne.dto.CreateReviewReqDto;
 import com.example.hakone.HakOne.dto.ReviewByUserDto;
 import com.example.hakone.HakOne.dto.ReviewResDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +20,7 @@ import java.util.List;
 public class ReviewApiController {
     private final ReviewService reviewService;
 
-    @PostMapping(value = "/user/{user_id}/academy/{academy_id}", consumes={"multipart/form-data"})
+    @PostMapping(value = "/user/{user_id}/academy/{academy_id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> createReview(@RequestPart MultipartFile userImage,
                                                @RequestPart("score") float score,
                                                @RequestPart("content") String content,
