@@ -20,7 +20,7 @@ public class ReviewApiController {
     private final ReviewService reviewService;
 
     @PostMapping("/user/{user_id}/academy/{academy_id}")
-    public ResponseEntity<String> createReview(@RequestPart("file") MultipartFile receipt,
+    public ResponseEntity<String> createReview(@RequestPart MultipartFile receipt,
                                                @RequestPart("score") float score,
                                                @RequestPart("content") String content,
                                                @PathVariable Long user_id,
