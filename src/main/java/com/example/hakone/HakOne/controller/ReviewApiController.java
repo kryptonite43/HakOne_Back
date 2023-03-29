@@ -19,7 +19,7 @@ import java.util.List;
 public class ReviewApiController {
     private final ReviewService reviewService;
 
-    @PostMapping("/user/{user_id}/academy/{academy_id}")
+    @PostMapping(value = "/user/{user_id}/academy/{academy_id}", consumes="multipart/form-data")
     public ResponseEntity<String> createReview(@RequestPart MultipartFile userImage,
                                                @RequestPart("score") float score,
                                                @RequestPart("content") String content,
