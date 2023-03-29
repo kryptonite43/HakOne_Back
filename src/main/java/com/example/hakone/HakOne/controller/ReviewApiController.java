@@ -8,7 +8,9 @@ import com.example.hakone.HakOne.dto.ReviewResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -18,7 +20,18 @@ public class ReviewApiController {
     private final ReviewService reviewService;
 
     @PostMapping("/user/{user_id}/academy/{academy_id}")
-    public ResponseEntity<String> createReview(CreateReviewReqDto createReviewReqDto, @PathVariable Long user_id, @PathVariable Long academy_id) throws IOException {
+    public ResponseEntity<String> createReview(@RequestPart("file") MultipartFile receipt,
+                                               @RequestPart("score") float score,
+                                               @RequestPart("content") String content,
+                                               @PathVariable Long user_id,
+                                               @PathVariable Long academy_id) throws IOException {
+        CreateReviewReqDto createReviewReqDto = new CreateReviewReqDto();
+        createReviewReqDto.setReceipt(receipt);
+        createReviewReqDto.setScore(score);
+        createReviewReqDto.setContent(content);
+        System.out.println("receipt: "+createReviewReqDto.getReceipt());
+        System.out.println("content: "+createReviewReqDto.getContent());
+        System.out.println("score: "+createReviewReqDto.getScore());
         if (reviewService.createReview(createReviewReqDto, user_id, academy_id)) {
             System.out.println("[CUSTOM LOG "+ new LogDateTime().getDate() + "]     리뷰 신규 등록");
             return ResponseEntity
