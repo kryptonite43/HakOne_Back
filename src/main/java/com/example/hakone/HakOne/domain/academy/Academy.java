@@ -4,6 +4,7 @@ import com.example.hakone.HakOne.domain.UserAcademy.UserAcademy;
 import com.example.hakone.HakOne.domain.classroom.Classroom;
 import com.example.hakone.HakOne.domain.review.Review;
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class Academy {
     @OneToMany(mappedBy = "academy", cascade = CascadeType.ALL)
     private List<UserAcademy> userAcademies = new ArrayList<>(); // 유저 정보 가져오기 위함
 
-    @OneToMany(mappedBy = "academy", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "academy", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
     private float avg_score;
@@ -106,6 +107,10 @@ public class Academy {
             sum += review.getScore();
         }
         this.avg_score = (float) (Math.round((sum / reviews.size()) * 10) / 10.0);
+    }
+
+    public void updateAcademy(int review_count) {
+        this.review_count = review_count;
     }
 }
 
