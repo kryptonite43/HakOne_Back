@@ -33,7 +33,7 @@ public class User {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserAcademy> userAcademies = new ArrayList<>(); // 학원 정보 가져오기 위함
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
