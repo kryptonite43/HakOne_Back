@@ -109,8 +109,14 @@ public class Academy {
         this.avg_score = (float) (Math.round((sum / reviews.size()) * 10) / 10.0);
     }
 
-    public void updateAcademy(int review_count) {
-        this.review_count = review_count;
+    public void updateAcademy(Academy academy) {
+        academy.setReview_count(academy.getReviews().size());
+        float sum = 0;
+
+        for (Review review : academy.getReviews()) {
+            sum += review.getScore();
+        }
+        academy.setAvg_score((float) (Math.round((sum / academy.getReviews().size()) * 10) / 10.0));
     }
 }
 

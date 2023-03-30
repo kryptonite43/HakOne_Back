@@ -83,6 +83,7 @@ public class ReviewService {
                 .map(review -> {
                     ReviewByUserDto dto = new ReviewByUserDto();
 
+                    dto.setAcademy_id(review.getAcademy().getId());
                     dto.setReview_id(review.getId());
                     dto.setAcademy_name(review.getAcademy().getAcademyName());
                     dto.setAvg_score(review.getAcademy().getAvg_score());
